@@ -13,6 +13,9 @@
 #import "TwitterClient.h"
 
 @interface TweetDetailViewController () <UITextViewDelegate>
+@property (strong, nonatomic) IBOutlet UIButton *favoriteButton;
+@property (strong, nonatomic) IBOutlet UIButton *retweetButton;
+@property (strong, nonatomic) IBOutlet UIButton *replyButton;
 @property (strong, nonatomic) IBOutlet UIImageView *thumbnailImageView;
 @property (strong, nonatomic) IBOutlet UITextView *replyTextView;
 @property (strong, nonatomic) IBOutlet UILabel *usernameTextLabel;
@@ -46,6 +49,11 @@
     self.replyTextView.hidden = YES;
     self.replyTextView.delegate = self;
     self.replyTextView.text = [NSString stringWithFormat: @"@%@ ", self.tweet.user.screenName];
+    
+    if (self.tweet.retweeted) {
+        NSLog(@"Retweeted, button should be green");
+        [self.retweetButton setImage: [UIImage imageNamed: @"retweet_on"] forState:UIControlStateNormal];
+    }
 }
 
 - (BOOL) textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
@@ -82,6 +90,8 @@
 - (IBAction)onRetweetButton:(id)sender {
     NSLog(@"onRetweetButton");
     [[TwitterClient sharedInstance] retweetTweet: self.tweet];
+    self.tweet.retweeted = YES;
+    [self.retweetButton setImage: [UIImage imageNamed: @"retweet_on"] forState:UIControlStateNormal];
 }
 
 - (IBAction)onFavoriteButton:(id)sender {

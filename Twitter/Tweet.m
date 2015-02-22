@@ -30,6 +30,13 @@
         self.text = dictionary[@"text"];
         self.status_id = dictionary[@"id"];
         
+        NSInteger retweetedInteger = [dictionary[@"retweeted"] integerValue];
+        if (retweetedInteger == 0) {
+            self.retweeted = NO;
+        } else {
+            self.retweeted = YES;
+        }
+        
         // NSLog(@"%@", dictionary);
         
         // NSLog(@"!!!!!!!!!!!!!!!!!! Parsed status ID: %@", self.status_id);

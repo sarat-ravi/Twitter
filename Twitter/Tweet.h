@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSString *status_id;
 @property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, strong) User *user;
+@property (nonatomic, assign) BOOL retweeted;
 
 - (id) initWithDictionary: (NSDictionary *) dictionary;
 
