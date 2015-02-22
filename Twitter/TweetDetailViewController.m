@@ -81,6 +81,7 @@
 
 - (IBAction)onRetweetButton:(id)sender {
     NSLog(@"onRetweetButton");
+    [[TwitterClient sharedInstance] retweetTweet: self.tweet];
 }
 
 - (IBAction)onFavoriteButton:(id)sender {

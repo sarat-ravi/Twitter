@@ -18,6 +18,7 @@
 
 - (void) tweetWithString: (NSString *) tweetText;
 - (void) replyToTweet: (Tweet *)tweet withString: (NSString *) replyText;
+- (void) retweetTweet: (Tweet *)tweet;
 
 - (void) loginWithCompletion: (void (^)(User *user, NSError *error)) completion;
 

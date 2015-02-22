@@ -36,6 +36,18 @@ NSString * const kTwitterAPISecret = @"98BVZ1QG4fSWqXrpAnmWMSDDP7IlhGZq9ReAZuuRY
     return client;
 }
 
+- (void) retweetTweet: (Tweet *)tweet {
+    NSString *url = [NSString stringWithFormat: @"1.1/statuses/retweet/%@.json", tweet.status_id];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject: tweet.status_id forKey: @"id"];
+    
+    [[TwitterClient sharedInstance] POST: url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Successfully retweeted");
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Failure to retweet: %@", error);
+    }];
+}
+
 - (void) replyToTweet: (Tweet *)tweet withString: (NSString *) replyText {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject: replyText forKey: @"status"];
