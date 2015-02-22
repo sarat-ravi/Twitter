@@ -7,8 +7,19 @@
 //
 
 #import "TweetDetailViewController.h"
+#import "User.h"
+#import "Tweet.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface TweetDetailViewController ()
+@property (strong, nonatomic) IBOutlet UIImageView *thumbnailImageView;
+@property (strong, nonatomic) IBOutlet UILabel *usernameTextLabel;
+@property (strong, nonatomic) IBOutlet UILabel *tweetTextLabel;
+@property (strong, nonatomic) IBOutlet UILabel *timestampTextLabel;
+
+- (IBAction)onReplyButton:(id)sender;
+- (IBAction)onRetweetButton:(id)sender;
+- (IBAction)onFavoriteButton:(id)sender;
 
 @end
 
@@ -16,22 +27,30 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    self.title = @"Tweet";
+    
+    User *user = self.tweet.user;
+    [self.thumbnailImageView setImageWithURL: [NSURL URLWithString: user.profileImageUrl]];
+    self.usernameTextLabel.text = user.name;
+    self.tweetTextLabel.text = self.tweet.text;
+    // self.timestampTextLabel.text = self.tweet.createdAt;
+    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"MMM dd, yyyy HH:mm a"];
+    NSString *dateString = [format stringFromDate: self.tweet.createdAt];
+    self.timestampTextLabel.text = dateString;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (IBAction)onReplyButton:(id)sender {
+    NSLog(@"onReplyButton");
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)onRetweetButton:(id)sender {
+    NSLog(@"onRetweetButton");
 }
-*/
 
+- (IBAction)onFavoriteButton:(id)sender {
+    NSLog(@"onFavoriteButton");
+}
 @end

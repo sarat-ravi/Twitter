@@ -11,6 +11,7 @@
 #import "TweetCell.h"
 #import "Tweet.h"
 #import "TwitterClient.h"
+#import "TweetDetailViewController.h"
 
 @interface TweetsViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -20,6 +21,10 @@
 @end
 
 @implementation TweetsViewController
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self.tableView reloadData];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -67,6 +72,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"Selected row %ld in section %ld", (long)indexPath.row, (long)indexPath.section);
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
+    vc.tweet = self.tweets[indexPath.row];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark Nav Buttons
