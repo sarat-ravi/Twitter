@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "LoginViewController.h"
 #import "TwitterClient.h"
+#import "User.h"
+#import "Tweet.h"
 
 @interface AppDelegate ()
 
@@ -54,24 +56,8 @@
 
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
-    [[TwitterClient sharedInstance] fetchAccessTokenWithPath:@"oauth/access_token"
-                                                      method:@"POST"
-                                                requestToken: [BDBOAuth1Credential credentialWithQueryString: url.query]
-                                                     success:^(BDBOAuth1Credential *accessToken) {
-                                                         NSLog(@"Access token: %@", accessToken.token);
-                                                         
-                                                         [[TwitterClient sharedInstance].requestSerializer saveAccessToken: accessToken];
-                                                         
-                                                         [[TwitterClient sharedInstance] GET: @"1.1/account/verify_credentials.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                             NSLog(@"successful GET: %@", responseObject);
-                                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                             NSLog(@"Failure to GET");
-                                                         }];
-                                                         
-                                                     } failure: ^(NSError *error) {
-                                                         NSLog(@"Failed to get access token!");
-                                                         
-                                                     }];
+    [[TwitterClient sharedInstance] openURL: url];
+    
     
     return YES;
 }

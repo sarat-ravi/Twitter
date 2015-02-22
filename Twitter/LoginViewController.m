@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "TwitterClient.h"
+#import "Tweet.h"
 
 @interface LoginViewController ()
 - (IBAction)onLogin:(id)sender;
@@ -19,22 +20,27 @@
 - (IBAction)onLogin:(id)sender {
     NSLog(@"onLogin called");
     
-    [[TwitterClient sharedInstance].requestSerializer removeAccessToken];
-    
-    [[TwitterClient sharedInstance] fetchRequestTokenWithPath:@"oauth/request_token"
-                                                       method: @"GET"
-                                                  callbackURL: [NSURL URLWithString: @"cptwitterdemo://oauth"]
-                                                        scope:nil
-    success:^(BDBOAuth1Credential *requestToken) {
-        NSLog(@"Request token: %@", requestToken.token);
+    [[TwitterClient sharedInstance] loginWithCompletion: ^(User *user, NSError *error) {
         
-        NSString *authUrlString = [NSString stringWithFormat: @"https://api.twitter.com/oauth/authorize?oauth_token=%@", requestToken.token];
-        NSURL *authUrl = [NSURL URLWithString: authUrlString];
-        
-        [[UIApplication sharedApplication] openURL: authUrl];
-        
-    } failure: ^(NSError *error) {
-        NSLog(@"Failed to get a requst token");
+        if (user != nil) {
+            // yay!
+            NSLog(@"Welcome user: %@", user.name);
+            
+            [[TwitterClient sharedInstance] GET: @"1.1/statuses/home_timeline.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                NSArray *tweets = [Tweet tweetsWithArray: responseObject];
+                // NSLog(@"successful Tweets: %@", tweets);
+                for (Tweet *tweet in tweets) {
+                    NSLog(@"Tweet: %@, %@", tweet.text, tweet.createdAt);
+                }
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"Failure to GET");
+            }];
+            
+        } else {
+            NSLog(@"There was an error in the login process: %@", error);
+        }
     }];
     
 }
