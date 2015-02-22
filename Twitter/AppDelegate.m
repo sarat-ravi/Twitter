@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "LoginViewController.h"
+#import "TwitterClient.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +19,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    self.window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
+    
+    LoginViewController *lvc = [[LoginViewController alloc] init];
+    self.window.rootViewController = lvc;
+    
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -40,6 +50,30 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+    [[TwitterClient sharedInstance] fetchAccessTokenWithPath:@"oauth/access_token"
+                                                      method:@"POST"
+                                                requestToken: [BDBOAuth1Credential credentialWithQueryString: url.query]
+                                                     success:^(BDBOAuth1Credential *accessToken) {
+                                                         NSLog(@"Access token: %@", accessToken.token);
+                                                         
+                                                         [[TwitterClient sharedInstance].requestSerializer saveAccessToken: accessToken];
+                                                         
+                                                         [[TwitterClient sharedInstance] GET: @"1.1/account/verify_credentials.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                             NSLog(@"successful GET: %@", responseObject);
+                                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                             NSLog(@"Failure to GET");
+                                                         }];
+                                                         
+                                                     } failure: ^(NSError *error) {
+                                                         NSLog(@"Failed to get access token!");
+                                                         
+                                                     }];
+    
+    return YES;
 }
 
 @end
