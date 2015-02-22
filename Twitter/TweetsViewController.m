@@ -17,6 +17,7 @@
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *tweets;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -41,19 +42,28 @@
                                                                             target:self
                                                                             action:@selector(onNewButton)];
     
-    [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
-        NSLog(@"Got home timeline tweets");
-        self.tweets = tweets;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });
-    }];
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(onRefresh) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.refreshControl];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     UINib *cellNib = [UINib nibWithNibName: @"TweetCell" bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier: @"TweetCell"];
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
+    [self onRefresh];
+}
+
+- (void) onRefresh {
+    [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
+        NSLog(@"Got home timeline tweets");
+        self.tweets = tweets;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.refreshControl endRefreshing];
+            [self.tableView reloadData];
+        });
+    }];
 }
 
 #pragma mark Table Listeners
