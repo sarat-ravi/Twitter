@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "TwitterClient.h"
 #import "Tweet.h"
+#import "TweetsViewController.h"
 
 @interface LoginViewController ()
 - (IBAction)onLogin:(id)sender;
@@ -26,17 +27,10 @@
             // yay!
             NSLog(@"Welcome user: %@", user.name);
             
-            [[TwitterClient sharedInstance] GET: @"1.1/statuses/home_timeline.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                
-                NSArray *tweets = [Tweet tweetsWithArray: responseObject];
-                // NSLog(@"successful Tweets: %@", tweets);
-                for (Tweet *tweet in tweets) {
-                    NSLog(@"Tweet: %@, %@", tweet.text, tweet.createdAt);
-                }
-                
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"Failure to GET");
-            }];
+            TweetsViewController *vc = [[TweetsViewController alloc] init];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+            
+            [self presentViewController: navigationController animated:NO completion:nil];
             
         } else {
             NSLog(@"There was an error in the login process: %@", error);

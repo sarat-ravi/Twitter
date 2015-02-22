@@ -11,6 +11,7 @@
 #import "TwitterClient.h"
 #import "User.h"
 #import "Tweet.h"
+#import "TweetsViewController.h"
 
 @interface AppDelegate ()
 
@@ -24,12 +25,34 @@
     
     self.window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
     
-    LoginViewController *lvc = [[LoginViewController alloc] init];
-    self.window.rootViewController = lvc;
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(userDidLogout) name: UserDidLogoutNotification object:nil];
+    
+    User *user = [User currentUser];
+    UIViewController *vc = nil;
+    if (user != nil) {
+        NSLog(@"User already logged in! Welcome, %@", user.name);
+        vc = [[TweetsViewController alloc] init];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self setNavigationControllerProperties: navigationController];
+        self.window.rootViewController = navigationController;
+    } else {
+        NSLog(@"Not already logged in...");
+        vc = [[LoginViewController alloc] init];
+        self.window.rootViewController = vc;
+    }
     
     [self.window makeKeyAndVisible];
     
     return YES;
+}
+
+- (void) setNavigationControllerProperties: (UINavigationController *) navigationController {
+    navigationController.navigationBar.translucent = NO;
+}
+
+- (void) userDidLogout {
+    UIViewController *vc = [[LoginViewController alloc] init];
+    self.window.rootViewController = vc;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -7,6 +7,8 @@
 //
 
 #import "TwitterClient.h"
+#import "User.h"
+#import "Tweet.h"
 
 NSString * const kTwitterAPIKey = @"SgSRKLt7mvfX2n7YcvYOJoRfJ";
 NSString * const kTwitterAPISecret = @"LEnfg55IFgs0uHppYD97Z3Q7Ig1O8PrtAmsNUSXCfPsgsIOLMm";
@@ -35,6 +37,18 @@ NSString * const kTwitterAPISecret = @"LEnfg55IFgs0uHppYD97Z3Q7Ig1O8PrtAmsNUSXCf
     return client;
 }
 
+- (void) homeTimelineWithParams: (NSDictionary *) params completion: (void (^)(NSArray *tweets, NSError *error)) completion {
+    [[TwitterClient sharedInstance] GET: @"1.1/statuses/home_timeline.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSArray *tweets = [Tweet tweetsWithArray: responseObject];
+        completion(tweets, nil);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Failure to GET");
+        completion(nil, error);
+    }];
+}
+
 - (void) openURL: (NSURL *) url {
     [[TwitterClient sharedInstance] fetchAccessTokenWithPath:@"oauth/access_token"
                                                       method:@"POST"
@@ -47,6 +61,7 @@ NSString * const kTwitterAPISecret = @"LEnfg55IFgs0uHppYD97Z3Q7Ig1O8PrtAmsNUSXCf
                                                          [[TwitterClient sharedInstance] GET: @"1.1/account/verify_credentials.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                              
                                                              User *user = [[User alloc] initWithDictionary: responseObject];
+                                                             [User setCurrentUser: user];
                                                              NSLog(@"successful User: %@", user);
                                                              self.loginCompletion(user, nil);
                                                              
