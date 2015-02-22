@@ -30,11 +30,22 @@ NSString * const kTwitterAPISecret = @"98BVZ1QG4fSWqXrpAnmWMSDDP7IlhGZq9ReAZuuRY
             client = [[TwitterClient alloc] initWithBaseURL: [NSURL URLWithString: @"https://api.twitter.com"]
                                                 consumerKey:kTwitterAPIKey
                                              consumerSecret:kTwitterAPISecret];
-            
         });
     }
     
     return client;
+}
+
+- (void) replyToTweet: (Tweet *)tweet withString: (NSString *) replyText {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject: replyText forKey: @"status"];
+    [params setObject: tweet.status_id forKey: @"in_reply_to_status_id"];
+    
+    [[TwitterClient sharedInstance] POST: @"1.1/statuses/update.json" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Successfully replied to tweet");
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Failure to Reply Tweet: %@", error);
+    }];
 }
 
 - (void) tweetWithString: (NSString *) tweetText {

@@ -28,6 +28,11 @@
         self.user = [[User alloc] initWithDictionary: dictionary[@"user"]];
         
         self.text = dictionary[@"text"];
+        self.status_id = dictionary[@"id"];
+        
+        // NSLog(@"%@", dictionary);
+        
+        // NSLog(@"!!!!!!!!!!!!!!!!!! Parsed status ID: %@", self.status_id);
         
         NSString *createdAtString = dictionary[@"created_at"];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];

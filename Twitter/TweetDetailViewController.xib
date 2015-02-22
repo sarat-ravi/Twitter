@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TweetDetailViewController">
             <connections>
+                <outlet property="replyTextView" destination="Luz-cC-tKf" id="fF3-L2-s7K"/>
                 <outlet property="thumbnailImageView" destination="4HD-vu-3zE" id="FAg-mN-UhX"/>
                 <outlet property="timestampTextLabel" destination="7Bv-Ld-FYH" id="Pqc-VC-hKT"/>
                 <outlet property="tweetTextLabel" destination="IcZ-I9-A95" id="2F1-ig-1wP"/>
@@ -87,25 +88,36 @@
                         <action selector="onFavoriteButton:" destination="-1" eventType="touchUpInside" id="Yr8-QW-CVw"/>
                     </connections>
                 </button>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Luz-cC-tKf">
+                    <rect key="frame" x="8" y="161" width="584" height="431"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="IcZ-I9-A95" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="0tH-x1-ra6"/>
+                <constraint firstAttribute="trailing" secondItem="Luz-cC-tKf" secondAttribute="trailing" constant="8" id="16Z-Mg-oNV"/>
                 <constraint firstItem="XHb-7T-nr2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="1Bf-zs-p6d"/>
                 <constraint firstItem="IcZ-I9-A95" firstAttribute="top" secondItem="3cl-fy-7Kb" secondAttribute="bottom" constant="8" id="51s-ET-xG5"/>
                 <constraint firstItem="P4f-c3-7k8" firstAttribute="leading" secondItem="XHb-7T-nr2" secondAttribute="trailing" constant="64" id="7YH-EU-ru4"/>
                 <constraint firstItem="Bx2-C9-n1S" firstAttribute="leading" secondItem="P4f-c3-7k8" secondAttribute="trailing" constant="64" id="AyD-92-H2o"/>
                 <constraint firstItem="7Bv-Ld-FYH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="EqF-7E-Isg"/>
                 <constraint firstAttribute="trailing" secondItem="7Bv-Ld-FYH" secondAttribute="trailing" constant="8" id="FcR-p6-Lsv"/>
+                <constraint firstAttribute="bottom" secondItem="Luz-cC-tKf" secondAttribute="bottom" constant="8" id="Vvv-rk-RuA"/>
                 <constraint firstItem="7Bv-Ld-FYH" firstAttribute="top" secondItem="IcZ-I9-A95" secondAttribute="bottom" constant="8" id="Xfu-ik-CHb"/>
                 <constraint firstItem="4HD-vu-3zE" firstAttribute="bottom" secondItem="3cl-fy-7Kb" secondAttribute="bottom" id="Y3D-Pt-JhG"/>
                 <constraint firstAttribute="trailing" secondItem="IcZ-I9-A95" secondAttribute="trailing" constant="8" id="ZQO-1m-Bry"/>
                 <constraint firstItem="XHb-7T-nr2" firstAttribute="top" secondItem="7Bv-Ld-FYH" secondAttribute="bottom" constant="20" id="bua-A0-OGK"/>
                 <constraint firstItem="P4f-c3-7k8" firstAttribute="centerY" secondItem="XHb-7T-nr2" secondAttribute="centerY" id="da5-62-stS"/>
+                <constraint firstItem="Luz-cC-tKf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="dvt-oR-qfA"/>
                 <constraint firstItem="3cl-fy-7Kb" firstAttribute="leading" secondItem="4HD-vu-3zE" secondAttribute="trailing" constant="8" id="g2y-Lm-z6f"/>
                 <constraint firstItem="4HD-vu-3zE" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="lo6-3S-yte"/>
                 <constraint firstItem="XHb-7T-nr2" firstAttribute="centerY" secondItem="Bx2-C9-n1S" secondAttribute="centerY" id="oK4-ck-Mjn"/>
                 <constraint firstItem="4HD-vu-3zE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="tJn-IS-2vZ"/>
+                <constraint firstItem="Luz-cC-tKf" firstAttribute="top" secondItem="Bx2-C9-n1S" secondAttribute="bottom" constant="8" id="yqS-Mf-5Bx"/>
             </constraints>
         </view>
     </objects>
