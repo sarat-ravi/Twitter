@@ -44,6 +44,8 @@
         NSString *createdAtString = dictionary[@"created_at"];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         
+        self.favorited = [dictionary[@"favorited"] boolValue];
+        
         formatter.dateFormat = @"EEE MMM d HH:mm:ss Z y";
         
         self.createdAt = [formatter dateFromString: createdAtString];

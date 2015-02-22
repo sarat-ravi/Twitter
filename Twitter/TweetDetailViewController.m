@@ -54,6 +54,11 @@
         NSLog(@"Retweeted, button should be green");
         [self.retweetButton setImage: [UIImage imageNamed: @"retweet_on"] forState:UIControlStateNormal];
     }
+    
+    if (self.tweet.favorited) {
+        NSLog(@"favorited, star should be yellow");
+        [self.favoriteButton setImage: [UIImage imageNamed: @"favorite_on"] forState:UIControlStateNormal];
+    }
 }
 
 - (BOOL) textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
@@ -96,5 +101,8 @@
 
 - (IBAction)onFavoriteButton:(id)sender {
     NSLog(@"onFavoriteButton");
+    [[TwitterClient sharedInstance] favoriteTweet: self.tweet];
+    self.tweet.favorited = YES;
+    [self.favoriteButton setImage: [UIImage imageNamed: @"favorite_on"] forState:UIControlStateNormal];
 }
 @end
