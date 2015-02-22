@@ -25,10 +25,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    self.title = @"Home";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"Sign Out"
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
                                                                             action:@selector(onSignOut)];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"New"
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(onNewButton)];
     
     [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
         NSLog(@"Got home timeline tweets");
@@ -61,6 +67,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"Selected row %ld in section %ld", (long)indexPath.row, (long)indexPath.section);
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark Nav Buttons
+
+- (void) onNewButton {
+    NSLog(@"New button clicked");
 }
 
 - (void) onSignOut {
