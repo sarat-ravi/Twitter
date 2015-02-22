@@ -8,8 +8,14 @@
 
 #import "TweetsViewController.h"
 #import "User.h"
+#import "TweetCell.h"
+#import "Tweet.h"
+#import "TwitterClient.h"
 
-@interface TweetsViewController ()
+@interface TweetsViewController () <UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSArray *tweets;
 
 @end
 
@@ -23,26 +29,43 @@
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
                                                                             action:@selector(onSignOut)];
+    
+    [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
+        NSLog(@"Got home timeline tweets");
+        self.tweets = tweets;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    }];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    UINib *cellNib = [UINib nibWithNibName: @"TweetCell" bundle:nil];
+    [self.tableView registerNib:cellNib forCellReuseIdentifier: @"TweetCell"];
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+}
+
+#pragma mark Table Listeners
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    TweetCell *cell = [self.tableView dequeueReusableCellWithIdentifier: @"TweetCell" forIndexPath:indexPath];
+    Tweet *tweet = self.tweets[indexPath.row];
+    [cell setTweet: tweet];
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.tweets count];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"Selected row %ld in section %ld", (long)indexPath.row, (long)indexPath.section);
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void) onSignOut {
     NSLog(@"Sign out clicked");
     [[User currentUser] logout];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

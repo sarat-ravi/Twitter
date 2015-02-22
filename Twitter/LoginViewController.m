@@ -30,7 +30,9 @@
             TweetsViewController *vc = [[TweetsViewController alloc] init];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
             
-            [self presentViewController: navigationController animated:NO completion:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController: navigationController animated:NO completion:nil];
+            });
             
         } else {
             NSLog(@"There was an error in the login process: %@", error);
