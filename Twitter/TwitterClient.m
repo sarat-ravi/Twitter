@@ -10,8 +10,8 @@
 #import "User.h"
 #import "Tweet.h"
 
-NSString * const kTwitterAPIKey = @"SgSRKLt7mvfX2n7YcvYOJoRfJ";
-NSString * const kTwitterAPISecret = @"LEnfg55IFgs0uHppYD97Z3Q7Ig1O8PrtAmsNUSXCfPsgsIOLMm";
+NSString * const kTwitterAPIKey = @"nNMcKrWBu0FRBNt1XsUin0Iws";
+NSString * const kTwitterAPISecret = @"98BVZ1QG4fSWqXrpAnmWMSDDP7IlhGZq9ReAZuuRY0teujbFV7";
 
 @interface TwitterClient()
 
@@ -35,6 +35,16 @@ NSString * const kTwitterAPISecret = @"LEnfg55IFgs0uHppYD97Z3Q7Ig1O8PrtAmsNUSXCf
     }
     
     return client;
+}
+
+- (void) tweetWithString: (NSString *) tweetText {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject: tweetText forKey: @"status"];
+    [[TwitterClient sharedInstance] POST: @"1.1/statuses/update.json" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Successfully tweeted");
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Failure to Tweet: %@", error);
+    }];
 }
 
 - (void) homeTimelineWithParams: (NSDictionary *) params completion: (void (^)(NSArray *tweets, NSError *error)) completion {

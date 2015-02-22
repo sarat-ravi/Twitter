@@ -12,6 +12,7 @@
 #import "Tweet.h"
 #import "TwitterClient.h"
 #import "TweetDetailViewController.h"
+#import "ComposeViewController.h"
 
 @interface TweetsViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -91,6 +92,11 @@
 
 - (void) onNewButton {
     NSLog(@"New button clicked");
+    ComposeViewController *vc = [[ComposeViewController alloc] init];
+    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController: vc];
+    nvc.navigationBar.translucent = NO;
+    
+    [self presentViewController: nvc animated:YES completion:nil];
 }
 
 - (void) onSignOut {
