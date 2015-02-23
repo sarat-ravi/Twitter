@@ -93,7 +93,7 @@ NSString * const kTwitterAPISecret = @"98BVZ1QG4fSWqXrpAnmWMSDDP7IlhGZq9ReAZuuRY
         completion(tweets, nil);
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Failure to GET");
+        NSLog(@"Failure to GET home timeline: %@", error);
         completion(nil, error);
     }];
 }
