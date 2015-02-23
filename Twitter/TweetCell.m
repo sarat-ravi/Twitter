@@ -10,6 +10,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "User.h"
 #import "NSDate+DateTools.h"
+#import "TwitterClient.h"
 
 @interface TweetCell()
 
@@ -25,7 +26,8 @@
     // Initialization code
 }
 
-- (void) setTweet: (Tweet *) tweet {
+- (void) setTweet:(Tweet *)tweet {
+    _tweet = tweet;
     User *user = tweet.user;
     [self.thumbnailImageView setImageWithURL: [NSURL URLWithString: user.profileImageUrl]];
     self.usernameLabel.text = user.name;
@@ -34,10 +36,14 @@
     
     if (tweet.retweeted) {
         [self.retweetButton setImage:[UIImage imageNamed:@"retweet_on"] forState: UIControlStateNormal];
+    } else {
+        [self.retweetButton setImage:[UIImage imageNamed:@"retweet_default"] forState: UIControlStateNormal];
     }
     
     if (tweet.favorited) {
         [self.favoriteButton setImage:[UIImage imageNamed:@"favorite_on"] forState: UIControlStateNormal];
+    } else {
+        [self.favoriteButton setImage:[UIImage imageNamed:@"favorite_default"] forState: UIControlStateNormal];
     }
 }
 
@@ -46,14 +52,23 @@
 }
 
 - (IBAction)onReplyButton:(id)sender {
-    NSLog(@"reply button clicked on tweet cell");
+    // NSLog(@"reply button clicked on tweet cell");
+    [self.delegate onReplyButton: self.replyButton forTweetCell: self];
 }
 
 - (IBAction)onRetweetButton:(id)sender {
-    NSLog(@"retweet button clicked on tweet cell");
+    // NSLog(@"retweet button clicked on tweet cell");
+    // [self.retweetButton setImage:[UIImage imageNamed:@"retweet_on"] forState: UIControlStateNormal];
+    // [[TwitterClient sharedInstance] retweetTweet: self.tweet];
+    // self.tweet.retweeted = YES;
+    [self.delegate onRetweetButton: self.retweetButton forTweetCell: self];
 }
 
 - (IBAction)onFavoriteButton:(id)sender {
-    NSLog(@"favorite button clicked on tweet cell");
+    // NSLog(@"favorite button clicked on tweet cell");
+    // [self.favoriteButton setImage:[UIImage imageNamed:@"favorite_on"] forState: UIControlStateNormal];
+    // [[TwitterClient sharedInstance] favoriteTweet: self.tweet];
+    // self.tweet.favorited = YES;
+    [self.delegate onFavoriteButton: self.favoriteButton forTweetCell: self];
 }
 @end

@@ -43,8 +43,10 @@ NSString * const kTwitterAPISecret = @"98BVZ1QG4fSWqXrpAnmWMSDDP7IlhGZq9ReAZuuRY
     
     [[TwitterClient sharedInstance] POST: url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Successfully favorited");
+        tweet.favorited = YES;
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Failure to favorite: %@", error);
+        tweet.favorited = NO;
     }];
 }
 
@@ -55,8 +57,10 @@ NSString * const kTwitterAPISecret = @"98BVZ1QG4fSWqXrpAnmWMSDDP7IlhGZq9ReAZuuRY
     
     [[TwitterClient sharedInstance] POST: url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Successfully retweeted");
+        tweet.retweeted = YES;
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Failure to retweet: %@", error);
+        tweet.retweeted = NO;
     }];
 }
 

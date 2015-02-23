@@ -14,7 +14,7 @@
 #import "TweetDetailViewController.h"
 #import "ComposeViewController.h"
 
-@interface TweetsViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface TweetsViewController () <UITableViewDelegate, UITableViewDataSource, TweetCellDelegate>
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *tweets;
@@ -56,6 +56,30 @@
     [self onRefresh];
 }
 
+- (void) onReplyButton: (UIButton *)replyButton forTweetCell: (TweetCell *) tweetCell {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell: tweetCell];
+    Tweet *tweet = self.tweets[indexPath.row];
+    
+    TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
+    vc.tweet = tweet;
+    vc.shouldActivateReplyUI = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void) onRetweetButton: (UIButton *)retweetButton forTweetCell: (TweetCell *) tweetCell {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell: tweetCell];
+    Tweet *tweet = self.tweets[indexPath.row];
+    [[TwitterClient sharedInstance] retweetTweet: tweet];
+    [retweetButton setImage: [UIImage imageNamed: @"retweet_on"] forState: UIControlStateNormal];
+}
+
+- (void) onFavoriteButton: (UIButton *)favoriteButton forTweetCell: (TweetCell *) tweetCell {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell: tweetCell];
+    Tweet *tweet = self.tweets[indexPath.row];
+    [[TwitterClient sharedInstance] favoriteTweet: tweet];
+    [favoriteButton setImage: [UIImage imageNamed: @"favorite_on"] forState: UIControlStateNormal];
+}
+
 - (void) onRefresh {
     [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
         NSLog(@"Got home timeline tweets");
@@ -72,7 +96,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TweetCell *cell = [self.tableView dequeueReusableCellWithIdentifier: @"TweetCell" forIndexPath:indexPath];
     Tweet *tweet = self.tweets[indexPath.row];
-    [cell setTweet: tweet];
+    // [cell setTweet: tweet];
+    cell.tweet = tweet;
+    cell.delegate = self;
     return cell;
 }
 
@@ -87,6 +113,8 @@
     vc.tweet = self.tweets[indexPath.row];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+// - (void) showTweetDetailWithReplyEnabled
 
 #pragma mark Nav Buttons
 

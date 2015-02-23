@@ -50,6 +50,10 @@
     self.replyTextView.delegate = self;
     self.replyTextView.text = [NSString stringWithFormat: @"@%@ ", self.tweet.user.screenName];
     
+    if (self.shouldActivateReplyUI) {
+        [self activateReplyUI];
+    }
+    
     if (self.tweet.retweeted) {
         NSLog(@"Retweeted, button should be green");
         [self.retweetButton setImage: [UIImage imageNamed: @"retweet_on"] forState:UIControlStateNormal];
@@ -85,7 +89,12 @@
 
 - (IBAction)onReplyButton:(id)sender {
     NSLog(@"onReplyButton");
+    [self activateReplyUI];
+}
+
+- (void) activateReplyUI {
     self.replyTextView.hidden = NO;
+    [self.replyTextView becomeFirstResponder];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"Reply"
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
