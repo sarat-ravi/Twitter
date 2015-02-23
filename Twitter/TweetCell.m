@@ -11,6 +11,14 @@
 #import "User.h"
 #import "NSDate+DateTools.h"
 
+@interface TweetCell()
+
+- (IBAction)onReplyButton:(id)sender;
+- (IBAction)onRetweetButton:(id)sender;
+- (IBAction)onFavoriteButton:(id)sender;
+
+@end
+
 @implementation TweetCell
 
 - (void)awakeFromNib {
@@ -23,10 +31,29 @@
     self.usernameLabel.text = user.name;
     self.timestampLabel.text = tweet.createdAt.shortTimeAgoSinceNow;
     self.tweetTextlabel.text = tweet.text;
+    
+    if (tweet.retweeted) {
+        [self.retweetButton setImage:[UIImage imageNamed:@"retweet_on"] forState: UIControlStateNormal];
+    }
+    
+    if (tweet.favorited) {
+        [self.favoriteButton setImage:[UIImage imageNamed:@"favorite_on"] forState: UIControlStateNormal];
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
 
+- (IBAction)onReplyButton:(id)sender {
+    NSLog(@"reply button clicked on tweet cell");
+}
+
+- (IBAction)onRetweetButton:(id)sender {
+    NSLog(@"retweet button clicked on tweet cell");
+}
+
+- (IBAction)onFavoriteButton:(id)sender {
+    NSLog(@"favorite button clicked on tweet cell");
+}
 @end
