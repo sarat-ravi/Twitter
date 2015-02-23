@@ -15,11 +15,12 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RkB-4p-kix">
-                    <rect key="frame" x="281" y="285" width="38" height="30"/>
+                    <rect key="frame" x="275" y="282" width="49" height="36"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="30" id="drM-aV-RcM"/>
-                        <constraint firstAttribute="width" constant="38" id="zkG-49-1SV"/>
+                        <constraint firstAttribute="height" constant="36" id="drM-aV-RcM"/>
+                        <constraint firstAttribute="width" constant="49" id="zkG-49-1SV"/>
                     </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <state key="normal" title="Login">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -27,12 +28,24 @@
                         <action selector="onLogin:" destination="-1" eventType="touchUpInside" id="w83-Qz-b4w"/>
                     </connections>
                 </button>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="twitter_blue" translatesAutoresizingMaskIntoConstraints="NO" id="MrT-EQ-biN">
+                    <rect key="frame" x="228" y="188" width="145" height="86"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="86" id="6kd-ld-fzb"/>
+                        <constraint firstAttribute="width" constant="145" id="AGH-x8-Zlf"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="centerY" secondItem="RkB-4p-kix" secondAttribute="centerY" id="7xY-2m-y4f"/>
+                <constraint firstAttribute="centerX" secondItem="MrT-EQ-biN" secondAttribute="centerX" id="Kwv-Bz-hv4"/>
+                <constraint firstItem="RkB-4p-kix" firstAttribute="top" secondItem="MrT-EQ-biN" secondAttribute="bottom" constant="8" id="cRI-a1-dsZ"/>
                 <constraint firstAttribute="centerX" secondItem="RkB-4p-kix" secondAttribute="centerX" id="kWe-4F-JuT"/>
             </constraints>
         </view>
     </objects>
+    <resources>
+        <image name="twitter_blue" width="379" height="308"/>
+    </resources>
 </document>

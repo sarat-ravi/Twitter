@@ -12,6 +12,8 @@
 #import "User.h"
 #import "Tweet.h"
 #import "TweetsViewController.h"
+#import "TweetDetailViewController.h"
+#import "ComposeViewController.h"
 
 @interface AppDelegate ()
 
@@ -24,6 +26,7 @@
     // Override point for customization after application launch.
     
     self.window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
+    [self styleApplication];
     
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(userDidLogout) name: UserDidLogoutNotification object:nil];
     
@@ -44,6 +47,23 @@
     [self.window makeKeyAndVisible];
     
     return YES;
+}
+
+- (void) styleApplication {
+    UIColor *babyBlue = [UIColor colorWithRed:0.34 green:0.68 blue:0.94 alpha:1.0];
+    
+    NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor], NSForegroundColorAttributeName, nil];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleLightContent];
+    
+    [[UINavigationBar appearance] setBarTintColor: babyBlue];
+    [[UINavigationBar appearance] setTintColor: [UIColor whiteColor]];
+    [[UINavigationBar appearance] setTitleTextAttributes: navbarTitleTextAttributes];
+    [[UINavigationBar appearance] setTranslucent: NO];
+    
+    [[UIView appearanceWhenContainedIn: [TweetsViewController class], nil] setBackgroundColor: [UIColor whiteColor]];
+    [[UIView appearanceWhenContainedIn: [ComposeViewController class], nil] setBackgroundColor: [UIColor whiteColor]];
+    [[UIView appearanceWhenContainedIn: [TweetDetailViewController class], nil] setBackgroundColor: [UIColor whiteColor]];
 }
 
 - (void) setNavigationControllerProperties: (UINavigationController *) navigationController {
