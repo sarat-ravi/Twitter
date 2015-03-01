@@ -13,6 +13,7 @@
 #import "TwitterClient.h"
 #import "TweetDetailViewController.h"
 #import "ComposeViewController.h"
+#import "ProfileViewController.h"
 
 @interface TweetsViewController () <UITableViewDelegate, UITableViewDataSource, TweetCellDelegate>
 
@@ -67,8 +68,18 @@
         [self onRefresh];
     }];
     
+    [[NSNotificationCenter defaultCenter] addObserverForName: @"Profile" object:nil queue: [NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [self onProfileButtonClicked];
+    }];
+    
     
     [self onRefresh];
+}
+
+- (void) onProfileButtonClicked {
+    ProfileViewController *vc = [[ProfileViewController alloc] init];
+    vc.user = [User currentUser];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void) onReplyButton: (UIButton *)replyButton forTweetCell: (TweetCell *) tweetCell {
