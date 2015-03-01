@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MenuViewController.h"
 
 @interface MainViewController : UIViewController
 
-- (id) initWithRootViewController: (UIViewController *)rootViewController
-            andMenuViewController: (UIViewController *)menuViewController;
+- (id) initWithRootViewController: (UINavigationController *)rootViewController
+            andMenuViewController: (MenuViewController *)menuViewController;
 
 @end

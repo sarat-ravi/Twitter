@@ -8,12 +8,13 @@
 
 #import "MainViewController.h"
 #import "TweetsViewController.h"
+#import "User.h"
 
 @interface MainViewController () <TweetsViewControllerDelegate>
 - (IBAction)onPanContentView:(UIPanGestureRecognizer *)sender;
 
-@property (nonatomic, strong) UIViewController *rootViewController;
-@property (nonatomic, strong) UIViewController *menuViewController;
+@property (nonatomic, strong) UINavigationController *rootViewController;
+@property (nonatomic, strong) MenuViewController *menuViewController;
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 // @property (strong, nonatomic) IBOutlet UIView *backgroundContentView;
 @property (nonatomic, assign) BOOL hamburgerMenuOpened;
@@ -26,8 +27,8 @@
 
 @implementation MainViewController
 
-- (id)initWithRootViewController: (UIViewController *)rootViewController
-            andMenuViewController: (UIViewController *)menuViewController {
+- (id) initWithRootViewController: (UINavigationController *)rootViewController
+            andMenuViewController: (MenuViewController *)menuViewController {
     self = [super init];
     
     if (self) {
@@ -38,11 +39,37 @@
         [[NSNotificationCenter defaultCenter] addObserverForName: @"Hamburger" object:nil queue: [NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
             [self onHamburgerButtonPressed];
         }];
-        // [self.view addSubview: menuViewController.view];
-        // [self.view addSubview: rootViewController.view];
+        
+        [[NSNotificationCenter defaultCenter] addObserverForName: @"Timeline" object:nil queue: [NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+            [self onTimelineButtonPressed];
+        }];
+        
+        [[NSNotificationCenter defaultCenter] addObserverForName: @"Profile" object:nil queue: [NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+            [self onProfileButtonPressed];
+        }];
+        
+        [[NSNotificationCenter defaultCenter] addObserverForName: @"Mentions" object:nil queue: [NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+            [self onMentionsButtonPressed];
+        }];
+        
+        [[NSNotificationCenter defaultCenter] addObserverForName: @"Sign Out" object:nil queue: [NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+            [self onSignOut];
+        }];
     }
     
     return self;
+}
+
+- (void)onMentionsButtonPressed {
+    NSLog(@"onMentionsButtonPressed");
+}
+
+- (void)onProfileButtonPressed {
+    NSLog(@"onProfileButtonPressed");
+}
+
+- (void)onTimelineButtonPressed {
+    NSLog(@"onTimelineButtonPressed");
 }
 
 - (void)onHamburgerButtonPressed {
@@ -52,6 +79,11 @@
     } else {
         [self openHamburgerMenu];
     }
+}
+
+- (void) onSignOut {
+    NSLog(@"Sign out clicked");
+    [[User currentUser] logout];
 }
 
 - (void) openHamburgerMenu {

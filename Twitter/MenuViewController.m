@@ -27,7 +27,7 @@
     [self.menuTableView registerNib:cellNib forCellReuseIdentifier: @"MenuCell"];
     self.menuTableView.rowHeight = UITableViewAutomaticDimension;
     
-    self.menuItems = @[@"Sign Out"];
+    self.menuItems = @[@"Timeline", @"Mentions", @"Profile", @"Sign Out"];
     [self.menuTableView reloadData];
 }
 
@@ -45,29 +45,23 @@
     NSLog(@"Selected row %ld in section %ld", (long)indexPath.row, (long)indexPath.section);
     [self.menuTableView deselectRowAtIndexPath: indexPath animated: YES];
     
-    if (indexPath.row == 0) {
-        [self onSignOut];
+    switch (indexPath.row) {
+        case 0:
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"Timeline" object: nil];
+            break;
+        case 1:
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"Mentions" object: nil];
+            break;
+        case 2:
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"Profile" object: nil];
+            break;
+        case 3:
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"Sign Out" object: nil];
+            break;
+        default:
+            break;
     }
+    
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void) onSignOut {
-    NSLog(@"Sign out clicked");
-    [[User currentUser] logout];
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
