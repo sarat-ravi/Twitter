@@ -20,6 +20,7 @@
 @property (nonatomic, assign) NSInteger slideOffset;
 
 @property (nonatomic, assign) CGPoint rootCenter;
+@property (nonatomic, assign) CGPoint originalRootCenter;
 
 @end
 
@@ -93,19 +94,21 @@
 
 - (IBAction)onPanContentView:(UIPanGestureRecognizer *)sender {
     CGPoint delta = [sender translationInView: self.view];
-    CGFloat displacement = MIN(delta.x, self.slideOffset);
-    displacement = MAX(0, displacement);
+    // CGFloat displacement = MIN(delta.x, self.slideOffset);
+    CGFloat displacement = delta.x;
+    // displacement = MAX(0, displacement);
     
     if ([sender state] == UIGestureRecognizerStateBegan) {
-        
+        self.originalRootCenter = self.rootViewController.view.center;
     } else if ([sender state] == UIGestureRecognizerStateChanged) {
-        CGPoint center = self.rootViewController.view.center;
-        self.rootViewController.view.center = CGPointMake(self.rootCenter.x + displacement, self.rootCenter.y);
+        self.rootViewController.view.center = CGPointMake(self.originalRootCenter.x + displacement, self.rootCenter.y);
     } else if ([sender state] == UIGestureRecognizerStateEnded) {
-        if (ABS(displacement) >= self.slideOffset / 2.0) {
+        CGPoint center = self.rootViewController.view.center;
+        CGFloat absoluteDisplacement = center.x - self.rootCenter.x;
+        if (absoluteDisplacement >= self.slideOffset / 2.0) {
             [self openHamburgerMenu];
         } else {
-            // [self closeHamburgerMenu];
+            [self closeHamburgerMenu];
         }
     }
     
