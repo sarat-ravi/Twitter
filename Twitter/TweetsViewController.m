@@ -33,11 +33,6 @@
     // Do any additional setup after loading the view from its nib.
     
     self.title = @"Home";
-    UIBarButtonItem *signOutBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"Sign Out"
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                            action:@selector(onSignOut)];
-    
     UIBarButtonItem *hamburgerBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"Ham"
                                                                                style: UIBarButtonItemStylePlain
                                                                               target: self
@@ -127,7 +122,7 @@
 
 - (void) onHamburger {
     NSLog(@"onHamburger");
-    [self.delegate onHamburgerButtonPressed];
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"Hamburger" object: nil];
 }
 
 - (void) onNewButton {

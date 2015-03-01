@@ -26,11 +26,19 @@
     if (self) {
         self.rootViewController = rootViewController;
         self.menuViewController = menuViewController;
+        
+        [[NSNotificationCenter defaultCenter] addObserverForName: @"Hamburger" object:nil queue: [NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+            [self onHamburgerButtonPressed];
+        }];
         // [self.view addSubview: menuViewController.view];
         // [self.view addSubview: rootViewController.view];
     }
     
     return self;
+}
+
+- (void)onHamburgerButtonPressed {
+    NSLog(@"onHamburgerButtonPressed");
 }
 
 - (void)viewDidLoad {
