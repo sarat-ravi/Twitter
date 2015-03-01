@@ -11,6 +11,8 @@
 		4130398A1AA2AAF70086C445 /* MenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 413039881AA2AAF70086C445 /* MenuViewController.xib */; };
 		4130398E1AA2AC8D0086C445 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4130398C1AA2AC8D0086C445 /* MainViewController.m */; };
 		4130398F1AA2AC8D0086C445 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4130398D1AA2AC8D0086C445 /* MainViewController.xib */; };
+		413039931AA2E47A0086C445 /* MenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 413039911AA2E47A0086C445 /* MenuCell.m */; };
+		413039941AA2E47A0086C445 /* MenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 413039921AA2E47A0086C445 /* MenuCell.xib */; };
 		4148A9F71A984961002D6906 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4148A9F61A984961002D6906 /* main.m */; };
 		4148A9FA1A984961002D6906 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4148A9F91A984961002D6906 /* AppDelegate.m */; };
 		4148AA021A984961002D6906 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4148AA011A984961002D6906 /* Images.xcassets */; };
@@ -49,6 +51,9 @@
 		4130398B1AA2AC8D0086C445 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		4130398C1AA2AC8D0086C445 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		4130398D1AA2AC8D0086C445 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		413039901AA2E47A0086C445 /* MenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuCell.h; sourceTree = "<group>"; };
+		413039911AA2E47A0086C445 /* MenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuCell.m; sourceTree = "<group>"; };
+		413039921AA2E47A0086C445 /* MenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuCell.xib; sourceTree = "<group>"; };
 		4148A9F11A984961002D6906 /* Twitter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Twitter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4148A9F51A984961002D6906 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4148A9F61A984961002D6906 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -165,6 +170,9 @@
 				413039861AA2AAF70086C445 /* MenuViewController.h */,
 				413039871AA2AAF70086C445 /* MenuViewController.m */,
 				413039881AA2AAF70086C445 /* MenuViewController.xib */,
+				413039901AA2E47A0086C445 /* MenuCell.h */,
+				413039911AA2E47A0086C445 /* MenuCell.m */,
+				413039921AA2E47A0086C445 /* MenuCell.xib */,
 				4130398B1AA2AC8D0086C445 /* MainViewController.h */,
 				4130398C1AA2AC8D0086C445 /* MainViewController.m */,
 				4130398D1AA2AC8D0086C445 /* MainViewController.xib */,
@@ -290,6 +298,7 @@
 			files = (
 				4148AA2C1A99A79D002D6906 /* TweetsViewController.xib in Resources */,
 				4148AA361A99C5CF002D6906 /* TweetDetailViewController.xib in Resources */,
+				413039941AA2E47A0086C445 /* MenuCell.xib in Resources */,
 				4148AA311A99B99E002D6906 /* TweetCell.xib in Resources */,
 				4130398A1AA2AAF70086C445 /* MenuViewController.xib in Resources */,
 				4130398F1AA2AC8D0086C445 /* MainViewController.xib in Resources */,
@@ -355,6 +364,7 @@
 				4148A9F71A984961002D6906 /* main.m in Sources */,
 				4148AA351A99C5CF002D6906 /* TweetDetailViewController.m in Sources */,
 				4130398E1AA2AC8D0086C445 /* MainViewController.m in Sources */,
+				413039931AA2E47A0086C445 /* MenuCell.m in Sources */,
 				4148AA1D1A984B05002D6906 /* LoginViewController.m in Sources */,
 				4148AA2B1A99A79D002D6906 /* TweetsViewController.m in Sources */,
 				413039891AA2AAF70086C445 /* MenuViewController.m in Sources */,

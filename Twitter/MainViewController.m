@@ -33,7 +33,7 @@
     if (self) {
         self.rootViewController = rootViewController;
         self.menuViewController = menuViewController;
-        self.slideOffset = 200;
+        self.slideOffset = 150;
         
         [[NSNotificationCenter defaultCenter] addObserverForName: @"Hamburger" object:nil queue: [NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
             [self onHamburgerButtonPressed];
@@ -56,7 +56,7 @@
 
 - (void) openHamburgerMenu {
     self.hamburgerMenuOpened = YES;
-    [UIView animateWithDuration: 1 delay: 0.1 usingSpringWithDamping: 0.6 initialSpringVelocity:0.9 options:0 animations:^{
+    [UIView animateWithDuration: 1 delay: 0.1 usingSpringWithDamping: 0.9 initialSpringVelocity:10.0 options:0 animations:^{
         // Animation
         CGPoint center = self.rootViewController.view.center;
         self.rootViewController.view.center = CGPointMake(self.rootCenter.x + self.slideOffset, self.rootCenter.y);
@@ -67,7 +67,7 @@
 
 - (void) closeHamburgerMenu {
     self.hamburgerMenuOpened = NO;
-    [UIView animateWithDuration: 1 delay: 0.1 usingSpringWithDamping: 0.6 initialSpringVelocity:0.9 options:0 animations:^{
+    [UIView animateWithDuration: 1 delay: 0.1 usingSpringWithDamping: 0.6 initialSpringVelocity:10.0 options:0 animations:^{
         // Animation
         CGPoint center = self.rootViewController.view.center;
         self.rootViewController.view.center = CGPointMake(self.rootCenter.x, self.rootCenter.y);

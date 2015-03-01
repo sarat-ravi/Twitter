@@ -15,13 +15,18 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Yiv-FF-6Te">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <color key="sectionIndexBackgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Yiv-FF-6Te">
+                    <rect key="frame" x="0.0" y="65" width="600" height="535"/>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.24603174603174605" green="0.24603174603174605" blue="0.24603174603174605" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="Yiv-FF-6Te" secondAttribute="bottom" id="6Tg-wA-maG"/>
+                <constraint firstAttribute="trailing" secondItem="Yiv-FF-6Te" secondAttribute="trailing" id="Nrb-RA-MLl"/>
+                <constraint firstItem="Yiv-FF-6Te" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="65" id="aWb-Kp-s8K"/>
+                <constraint firstItem="Yiv-FF-6Te" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xW2-Gz-o0i"/>
+            </constraints>
             <point key="canvasLocation" x="477" y="223"/>
         </view>
     </objects>

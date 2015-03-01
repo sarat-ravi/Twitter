@@ -10,6 +10,8 @@
 #import "TwitterClient.h"
 #import "Tweet.h"
 #import "TweetsViewController.h"
+#import "MenuViewController.h"
+#import "MainViewController.h"
 
 @interface LoginViewController ()
 - (IBAction)onLogin:(id)sender;
@@ -27,11 +29,19 @@
             // yay!
             NSLog(@"Welcome user: %@", user.name);
             
-            TweetsViewController *vc = [[TweetsViewController alloc] init];
-            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+            // TweetsViewController *vc = [[TweetsViewController alloc] init];
+            // UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+            
+            TweetsViewController *tweetsVC = [[TweetsViewController alloc] init];
+            MenuViewController *menuVC = [[MenuViewController alloc] init];
+            
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:tweetsVC];
+            
+            UIViewController *mainVC = [[MainViewController alloc] initWithRootViewController: navigationController
+                                                                    andMenuViewController:menuVC];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self presentViewController: navigationController animated:NO completion:nil];
+                [self presentViewController: mainVC animated:NO completion:nil];
             });
             
         } else {

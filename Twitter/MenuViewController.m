@@ -7,9 +7,12 @@
 //
 
 #import "MenuViewController.h"
+#import "MenuCell.h"
+#import "User.h"
 
-@interface MenuViewController ()
+@interface MenuViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *menuTableView;
+@property (strong, nonatomic) NSArray *menuItems;
 
 @end
 
@@ -17,12 +20,44 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    self.menuTableView.delegate = self;
+    self.menuTableView.dataSource = self;
+    UINib *cellNib = [UINib nibWithNibName: @"MenuCell" bundle:nil];
+    [self.menuTableView registerNib:cellNib forCellReuseIdentifier: @"MenuCell"];
+    self.menuTableView.rowHeight = UITableViewAutomaticDimension;
+    
+    self.menuItems = @[@"Sign Out"];
+    [self.menuTableView reloadData];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    MenuCell *cell = [self.menuTableView dequeueReusableCellWithIdentifier: @"MenuCell" forIndexPath:indexPath];
+    cell.menuTitle = self.menuItems[indexPath.row];
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.menuItems count];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"Selected row %ld in section %ld", (long)indexPath.row, (long)indexPath.section);
+    [self.menuTableView deselectRowAtIndexPath: indexPath animated: YES];
+    
+    if (indexPath.row == 0) {
+        [self onSignOut];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) onSignOut {
+    NSLog(@"Sign out clicked");
+    [[User currentUser] logout];
 }
 
 /*
