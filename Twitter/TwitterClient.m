@@ -86,16 +86,24 @@ NSString * const kTwitterAPISecret = @"98BVZ1QG4fSWqXrpAnmWMSDDP7IlhGZq9ReAZuuRY
     }];
 }
 
-- (void) homeTimelineWithParams: (NSDictionary *) params completion: (void (^)(NSArray *tweets, NSError *error)) completion {
-    [[TwitterClient sharedInstance] GET: @"1.1/statuses/home_timeline.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+- (void) requestForTweetsAtEndpoint: (NSString *)endpoint withParams: (NSDictionary *) params completion: (void (^)(NSArray *tweets, NSError *error)) completion {
+    [[TwitterClient sharedInstance] GET: endpoint parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSArray *tweets = [Tweet tweetsWithArray: responseObject];
         completion(tweets, nil);
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Failure to GET home timeline: %@", error);
+        NSLog(@"Failure to GET tweets for '%@': %@", endpoint, error);
         completion(nil, error);
     }];
+}
+
+- (void) mentionsWithParams: (NSDictionary *) params completion: (void (^)(NSArray *tweets, NSError *error)) completion {
+    [self requestForTweetsAtEndpoint: @"1.1/statuses/mentions_timeline.json" withParams: params completion: completion];
+}
+
+- (void) homeTimelineWithParams: (NSDictionary *) params completion: (void (^)(NSArray *tweets, NSError *error)) completion {
+    [self requestForTweetsAtEndpoint: @"1.1/statuses/home_timeline.json" withParams: params completion: completion];
 }
 
 - (void) openURL: (NSURL *) url {

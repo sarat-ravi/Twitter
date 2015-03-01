@@ -20,6 +20,8 @@
 @property (nonatomic, strong) NSArray *tweets;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
+@property (nonatomic, assign) BOOL shouldDisplayMentions;
+
 @end
 
 @implementation TweetsViewController
@@ -55,6 +57,17 @@
     [self.tableView registerNib:cellNib forCellReuseIdentifier: @"TweetCell"];
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
+    [[NSNotificationCenter defaultCenter] addObserverForName: @"Timeline" object:nil queue: [NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        self.shouldDisplayMentions = NO;
+        [self onRefresh];
+    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName: @"Mentions" object:nil queue: [NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        self.shouldDisplayMentions = YES;
+        [self onRefresh];
+    }];
+    
+    
     [self onRefresh];
 }
 
@@ -83,14 +96,25 @@
 }
 
 - (void) onRefresh {
-    [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
-        NSLog(@"Got home timeline tweets");
-        self.tweets = tweets;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.refreshControl endRefreshing];
-            [self.tableView reloadData];
-        });
-    }];
+    if (self.shouldDisplayMentions) {
+        [[TwitterClient sharedInstance] mentionsWithParams:nil completion:^(NSArray *tweets, NSError *error) {
+            NSLog(@"Got mentions tweets");
+            self.tweets = tweets;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.refreshControl endRefreshing];
+                [self.tableView reloadData];
+            });
+        }];
+    } else {
+        [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
+            NSLog(@"Got home timeline tweets");
+            self.tweets = tweets;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.refreshControl endRefreshing];
+                [self.tableView reloadData];
+            });
+        }];
+    }
 }
 
 #pragma mark Table Listeners

@@ -44,12 +44,12 @@
             [self onTimelineButtonPressed];
         }];
         
-        [[NSNotificationCenter defaultCenter] addObserverForName: @"Profile" object:nil queue: [NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-            [self onProfileButtonPressed];
-        }];
-        
         [[NSNotificationCenter defaultCenter] addObserverForName: @"Mentions" object:nil queue: [NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
             [self onMentionsButtonPressed];
+        }];
+        
+        [[NSNotificationCenter defaultCenter] addObserverForName: @"Profile" object:nil queue: [NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+            [self onProfileButtonPressed];
         }];
         
         [[NSNotificationCenter defaultCenter] addObserverForName: @"Sign Out" object:nil queue: [NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
@@ -62,14 +62,17 @@
 
 - (void)onMentionsButtonPressed {
     NSLog(@"onMentionsButtonPressed");
+    [self closeHamburgerMenu];
 }
 
 - (void)onProfileButtonPressed {
     NSLog(@"onProfileButtonPressed");
+    [self closeHamburgerMenu];
 }
 
 - (void)onTimelineButtonPressed {
     NSLog(@"onTimelineButtonPressed");
+    [self closeHamburgerMenu];
 }
 
 - (void)onHamburgerButtonPressed {
@@ -83,6 +86,7 @@
 
 - (void) onSignOut {
     NSLog(@"Sign out clicked");
+    [self closeHamburgerMenu];
     [[User currentUser] logout];
 }
 
