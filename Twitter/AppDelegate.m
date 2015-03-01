@@ -14,6 +14,8 @@
 #import "TweetsViewController.h"
 #import "TweetDetailViewController.h"
 #import "ComposeViewController.h"
+#import "MenuViewController.h"
+#import "MainViewController.h"
 
 @interface AppDelegate ()
 
@@ -31,17 +33,24 @@
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(userDidLogout) name: UserDidLogoutNotification object:nil];
     
     User *user = [User currentUser];
-    UIViewController *vc = nil;
+    // jUIViewController *vc = nil;
     if (user != nil) {
         NSLog(@"User already logged in! Welcome, %@", user.name);
-        vc = [[TweetsViewController alloc] init];
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+        TweetsViewController *tweetsVC = [[TweetsViewController alloc] init];
+        MenuViewController *menuVC = [[MenuViewController alloc] init];
+        
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:tweetsVC];
+        
+        UIViewController *mainVC = [[MainViewController alloc] initWithRootViewController: navigationController
+                                                                    andMenuViewController:menuVC];
+        
+        
         [self setNavigationControllerProperties: navigationController];
-        self.window.rootViewController = navigationController;
+        self.window.rootViewController = mainVC;
     } else {
         NSLog(@"Not already logged in...");
-        vc = [[LoginViewController alloc] init];
-        self.window.rootViewController = vc;
+        UIViewController *mainVC = [[LoginViewController alloc] init];
+        self.window.rootViewController = mainVC;
     }
     
     [self.window makeKeyAndVisible];
