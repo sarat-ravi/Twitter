@@ -18,4 +18,4 @@ Time spent: `9`
 
 ### Walkthrough
 
-![Video Walkthrough](twitter.gif)
+![Video Walkthrough](twitter_partII.gif)
