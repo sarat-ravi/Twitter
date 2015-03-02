@@ -21,7 +21,8 @@
 @property (nonatomic, strong) NSArray *tweets;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
-@property (nonatomic, assign) BOOL shouldDisplayMentions;
+// @property (nonatomic, assign) BOOL shouldDisplayMentions;
+
 
 @end
 
@@ -34,6 +35,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    if (self.mode == nil) {
+        self.mode = @"Timeline";
+    }
     
     self.title = @"Home";
     UIBarButtonItem *hamburgerBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"Ham"
@@ -59,12 +64,12 @@
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
     [[NSNotificationCenter defaultCenter] addObserverForName: @"Timeline" object:nil queue: [NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        self.shouldDisplayMentions = NO;
+        self.mode = @"Timeline";
         [self onRefresh];
     }];
     
     [[NSNotificationCenter defaultCenter] addObserverForName: @"Mentions" object:nil queue: [NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        self.shouldDisplayMentions = YES;
+        self.mode = @"Mentions";
         [self onRefresh];
     }];
     
@@ -75,6 +80,39 @@
     
     [self onRefresh];
 }
+
+- (void) onRefresh {
+    
+    if ([self.mode isEqualToString: @"Mentions"]) {
+        [[TwitterClient sharedInstance] mentionsWithParams:nil completion:^(NSArray *tweets, NSError *error) {
+            NSLog(@"Got mentions tweets");
+            self.tweets = tweets;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.refreshControl endRefreshing];
+                [self.tableView reloadData];
+            });
+        }];
+    } else if ([self.mode isEqualToString: @"Profile"]) {
+        [[TwitterClient sharedInstance] userTimelineWithParams:self.timelineParams completion:^(NSArray *tweets, NSError *error) {
+            NSLog(@"Got user timeline tweets");
+            self.tweets = tweets;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.refreshControl endRefreshing];
+                [self.tableView reloadData];
+            });
+        }];
+    } else {
+        [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
+            NSLog(@"Got home timeline tweets");
+            self.tweets = tweets;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.refreshControl endRefreshing];
+                [self.tableView reloadData];
+            });
+        }];
+    }
+}
+
 
 - (void) onProfileButtonClicked {
     ProfileViewController *vc = [[ProfileViewController alloc] init];
@@ -104,28 +142,6 @@
     Tweet *tweet = self.tweets[indexPath.row];
     [[TwitterClient sharedInstance] favoriteTweet: tweet];
     [favoriteButton setImage: [UIImage imageNamed: @"favorite_on"] forState: UIControlStateNormal];
-}
-
-- (void) onRefresh {
-    if (self.shouldDisplayMentions) {
-        [[TwitterClient sharedInstance] mentionsWithParams:nil completion:^(NSArray *tweets, NSError *error) {
-            NSLog(@"Got mentions tweets");
-            self.tweets = tweets;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.refreshControl endRefreshing];
-                [self.tableView reloadData];
-            });
-        }];
-    } else {
-        [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
-            NSLog(@"Got home timeline tweets");
-            self.tweets = tweets;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.refreshControl endRefreshing];
-                [self.tableView reloadData];
-            });
-        }];
-    }
 }
 
 #pragma mark Table Listeners

@@ -102,6 +102,10 @@ NSString * const kTwitterAPISecret = @"98BVZ1QG4fSWqXrpAnmWMSDDP7IlhGZq9ReAZuuRY
     [self requestForTweetsAtEndpoint: @"1.1/statuses/mentions_timeline.json" withParams: params completion: completion];
 }
 
+- (void) userTimelineWithParams: (NSDictionary *) params completion: (void (^)(NSArray *tweets, NSError *error)) completion {
+    [self requestForTweetsAtEndpoint: @"1.1/statuses/user_timeline.json" withParams: params completion: completion];
+}
+
 - (void) homeTimelineWithParams: (NSDictionary *) params completion: (void (^)(NSArray *tweets, NSError *error)) completion {
     [self requestForTweetsAtEndpoint: @"1.1/statuses/home_timeline.json" withParams: params completion: completion];
 }

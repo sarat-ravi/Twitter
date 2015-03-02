@@ -17,6 +17,7 @@
 - (IBAction)onReplyButton:(id)sender;
 - (IBAction)onRetweetButton:(id)sender;
 - (IBAction)onFavoriteButton:(id)sender;
+- (IBAction)onThumbnailClicked:(UITapGestureRecognizer *)sender;
 
 @end
 
@@ -70,5 +71,9 @@
     // [[TwitterClient sharedInstance] favoriteTweet: self.tweet];
     // self.tweet.favorited = YES;
     [self.delegate onFavoriteButton: self.favoriteButton forTweetCell: self];
+}
+
+- (IBAction)onThumbnailClicked:(UITapGestureRecognizer *)sender {
+    NSLog(@"onThumbnailClicked");
 }
 @end

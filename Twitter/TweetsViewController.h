@@ -16,4 +16,7 @@
 
 @interface TweetsViewController : UIViewController
 
+@property (strong, nonatomic) NSDictionary *timelineParams;
+@property (nonatomic, strong) NSString *mode;
+
 @end
