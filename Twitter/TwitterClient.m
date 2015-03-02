@@ -87,7 +87,7 @@ NSString * const kTwitterAPISecret = @"98BVZ1QG4fSWqXrpAnmWMSDDP7IlhGZq9ReAZuuRY
 }
 
 - (void) requestForTweetsAtEndpoint: (NSString *)endpoint withParams: (NSDictionary *) params completion: (void (^)(NSArray *tweets, NSError *error)) completion {
-    [[TwitterClient sharedInstance] GET: endpoint parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [[TwitterClient sharedInstance] GET: endpoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSArray *tweets = [Tweet tweetsWithArray: responseObject];
         completion(tweets, nil);

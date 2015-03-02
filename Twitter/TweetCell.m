@@ -24,7 +24,9 @@
 @implementation TweetCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onThumbnailClicked)];
+    [self.thumbnailImageView addGestureRecognizer:tapRecognizer];
+    self.thumbnailImageView.userInteractionEnabled = YES;
 }
 
 - (void) setTweet:(Tweet *)tweet {
@@ -73,7 +75,7 @@
     [self.delegate onFavoriteButton: self.favoriteButton forTweetCell: self];
 }
 
-- (IBAction)onThumbnailClicked:(UITapGestureRecognizer *)sender {
-    NSLog(@"onThumbnailClicked");
+- (void)onThumbnailClicked {
+    [self.delegate onThumbnailClickedForTweetCell: self];
 }
 @end

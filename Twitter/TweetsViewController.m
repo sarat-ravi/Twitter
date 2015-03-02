@@ -94,7 +94,7 @@
         }];
     } else if ([self.mode isEqualToString: @"Profile"]) {
         [[TwitterClient sharedInstance] userTimelineWithParams:self.timelineParams completion:^(NSArray *tweets, NSError *error) {
-            NSLog(@"Got user timeline tweets");
+            NSLog(@"Got user timeline tweets with params: %@", self.timelineParams);
             self.tweets = tweets;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.refreshControl endRefreshing];
@@ -117,6 +117,13 @@
 - (void) onProfileButtonClicked {
     ProfileViewController *vc = [[ProfileViewController alloc] init];
     vc.user = [User currentUser];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void) onThumbnailClickedForTweetCell:(TweetCell *)tweetCell {
+    NSLog(@"thumbnail clicked");
+    ProfileViewController *vc = [[ProfileViewController alloc] init];
+    vc.user = tweetCell.tweet.user;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

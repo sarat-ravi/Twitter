@@ -16,6 +16,7 @@
 - (void) onReplyButton: (UIButton *)replyButton forTweetCell: (TweetCell *) tweetCell;
 - (void) onRetweetButton: (UIButton *)retweetButton forTweetCell: (TweetCell *) tweetCell;
 - (void) onFavoriteButton: (UIButton *)favoriteButton forTweetCell: (TweetCell *) tweetCell;
+- (void) onThumbnailClickedForTweetCell: (TweetCell *) tweetCell;
 
 @end
 
